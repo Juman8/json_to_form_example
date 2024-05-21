@@ -77,7 +77,13 @@ export const JSON_SCHEMA: JSON_SCHEMA_PROPERTIES = {
       type: 'string',
       title: 'Telephone',
       minLength: 10
-    }
+    },
+    // slecect file 
+    file: {
+      type: 'string',
+      title: 'Logo',
+      fileType: 'image/jpeg, image/webp, image/png, image/gif, image/svg+xml, image/x-icon, image/bmp'
+    },
   }
 };
 
@@ -113,7 +119,10 @@ export const UI_SCHEMA: UISchema = {
     'ui:options': {
       inputType: 'tel'
     }
-  }
+  },
+  file: {
+      'ui:widget': 'fileUploadWidget'
+    }
 };
 
 export const FORM_DATA: FormDataType = {
