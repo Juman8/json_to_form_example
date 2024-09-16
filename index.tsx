@@ -89,6 +89,7 @@ const FormContainer = forwardRef<any, any>((props, ref) => {
             }}
             // onChange={({ formData }) => console.log(formData)}
             validator={validator}
+            customValidate={jsonschema?.customValidate}
             className='bottom_class'
           />
         </StyleContainer>
