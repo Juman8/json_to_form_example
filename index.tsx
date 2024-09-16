@@ -43,6 +43,16 @@ const FormContainer = forwardRef<any, any>((props, ref) => {
     setJsonSchema(undefined);
     setUiSchema(undefined);
   };
+
+    const onChange = (data: any) => {
+    if (jsonschema?.customChange?.(data)) {
+      const mA = jsonschema?.customChange?.(data);
+      setFormData(mA.formData);
+      setJsonSchema(mA.schema);
+    }
+    return data;
+  };
+  
   if (!formData) {
     return null;
   }
@@ -87,6 +97,7 @@ const FormContainer = forwardRef<any, any>((props, ref) => {
               onSubmit?.(formData);
               onHide();
             }}
+            onChange={onChange}
             // onChange={({ formData }) => console.log(formData)}
             validator={validator}
             customValidate={jsonschema?.customValidate}
