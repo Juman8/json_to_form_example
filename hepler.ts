@@ -45,6 +45,39 @@ const customValidate = (formData: any, errors: any) => {
 const listCountryData = ['sdasd', 'dsadasd'];
 const stateDropdown = ['sdasd', 'dsadasd'];
 
+const getStatesForRegion = (input: string) => {
+    const countryID = dataCountry.find((el: { countryName: string }) => el.countryName === input)?.id;
+    return initState(countryID);
+  };
+
+  const setStatesFollowRegion = (input: string, currentState: string) => {
+    const countryID = dataCountry.find((el: { countryName: string }) => el.countryName === input)?.id;
+    const listState = initState(countryID);
+    if (listState.includes(currentState)) {
+      return currentState;
+    }
+    return 'None';
+  };
+
+  const handleChange = (oldSchema: any) => {
+    const newSchema = { ...oldSchema };
+    const selectedRegion = newSchema.formData.region;
+
+    // Update the enum for the state field based on the selected region
+    if (selectedRegion) {
+      if (selectedRegion === 'None') {
+        newSchema.formData.state = 'None';
+      } else {
+        newSchema.formData.state = setStatesFollowRegion(selectedRegion, newSchema.formData.state);
+      }
+      newSchema.schema.properties.state.enum = getStatesForRegion(selectedRegion);
+    }
+
+    return newSchema;
+  };
+
+
+
 export const JSON_SCHEMA: JSON_SCHEMA_PROPERTIES = {
   title: 'A registration form',
   description: 'A simple form example.',
@@ -103,6 +136,7 @@ export const JSON_SCHEMA: JSON_SCHEMA_PROPERTIES = {
       title: 'Logo',
       fileType: 'image/jpeg, image/webp, image/png, image/gif, image/svg+xml, image/x-icon, image/bmp'
     },
+    handleChange
   }
 };
 
@@ -143,6 +177,7 @@ export const UI_SCHEMA: UISchema = {
       'ui:widget': 'fileUploadWidget'
     }
 };
+
 
 export const FORM_DATA: FormDataType = {
   firstName: 'Chuck',
