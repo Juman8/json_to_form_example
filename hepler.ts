@@ -21,7 +21,26 @@ export type JSON_SCHEMA_PROPERTIES = {
   type: 'object';
   required: string[];
   properties: Properties;
+  customValidate?: any
 };
+
+const customValidate = (formData: any, errors: any) => {
+    const { minValueBestUnit, maxValueBestUnit, unitIfLessThanMin, unitIfMoreThanMax } = formData;
+
+    // If minValueBestUnit or maxValueBestUnit is provided, check the respective unit fields
+    if (minValueBestUnit) {
+      if (unitIfLessThanMin === 'None') {
+        errors.unitIfLessThanMin.addError("Unit Less Than Min cannot be 'None' when Min Value is provided.");
+      }
+    }
+    if (maxValueBestUnit) {
+      if (unitIfMoreThanMax === 'None') {
+        errors.unitIfMoreThanMax.addError("Unit More Than Max cannot be 'None' when Max Value is provided.");
+      }
+    }
+
+    return errors;
+  };
 
 const listCountryData = ['sdasd', 'dsadasd'];
 const stateDropdown = ['sdasd', 'dsadasd'];
